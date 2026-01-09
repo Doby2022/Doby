@@ -23,21 +23,22 @@ const ILFOV_LOCALITIES = [
   return a.localeCompare(b);
 });
 
+// Bază de date extinsă cu arterele principale și secundare din București (2025)
 const BUCHAREST_STREETS_DATABASE = [
-  "Victoriei", "Magheru", "Unirii", "Decebal", "Burebista", "Mihai Bravu", "Iancu de Hunedoara",
-  "Ștefan cel Mare", "Pantelimon", "Colentina", "Moșilor", "Carol I", "Elisabeta", "Rahovei",
-  "Floreasca", "Dorobanților", "Griviței", "Plevnei", "Văcărești", "Splaiul Unirii", "Splaiul Independenței", 
-  "Timișoara", "Iuliu Maniu", "Uverturii", "Ghencea", "Drumul Taberei", "Vasile Milea", "Poligrafiei", 
-  "Bucureștii Noi", "Ion Mihalache", "Pavel Kiseleff", "Aviatorilor", "Constantin Prezan", "Primăverii", 
-  "Mircea Eliade", "Radu Beller", "Barbu Văcărescu", "Lacul Tei", "Doamna Ghica", "Petricani", "Fundeni", 
-  "Andronache", "Giurgiului", "Olteniței", "Berceni", "Viilor", "Alexandriei", "Mărgeanului", "Antiaeriană", 
-  "Drumul Sării", "13 Septembrie", "Libertății", "Națiunile Unite", "Corneliu Coposu", "Octavian Goga", 
-  "Mircea Vodă", "Nerva Traian", "Ion Dragalina", "Vasile Lascăr", "Viitorului", "Tunari", "Erou Iancu Nicolae",
-  "Pipera", "Zambaccian", "Mendeleev", "Amzei", "Câmpineanu", "Brezoianu", "Lipscani", "Gabroveni", 
-  "Franceză", "Smârdan", "Șelari", "Covaci", "Baicului", "Ziduri Moși", "Heliade între Vii", "Electronică", 
-  "Fabrica de Glucoză", "Dimitrie Pompeiu", "George Constantinescu", "Vatra Luminoasă", "Maior Coravu", 
-  "Baba Novac", "Constantin Brâncuși", "Nicolae Grigorescu", "Theodor Pallady", "Camil Ressu", "Rebreanu",
-  "Postăvarului", "1 Decembrie 1918", "Lucrețiu Pătrășcanu", "Codrii Neamțului", "Prevederii", "Alexandru Obregia"
+  // Sector 1
+  "Aviatorilor", "Kiseleff", "Primaverii", "Dorobanti", "Floreasca", "Baneasa", "Bucurestii Noi", "Grivitei", "Poligrafiei", "Ion Mihalache", "Nicolae Caramfil", "Erou Iancu Nicolae", "Pipera", "Zambaccian", "Mendeleev", "Amzei", "Câmpineanu", "Brezoianu", "Pavel Kiseleff", "Constantin Prezan", "Mircea Eliade", "Radu Beller", "Barbu Văcărescu", "Aerogarii", "Soseaua Nordului", "Expozitiei", "Jiului", "Gloriei", "Pajurei", "Damaroaia",
+  // Sector 2
+  "Colentina", "Pantelimon", "Mosilor", "Obor", "Lacul Tei", "Doamna Ghica", "Petricani", "Fundeni", "Andronache", "Baicului", "Ziduri Moși", "Heliade între Vii", "Electronică", "Fabrica de Glucoză", "Dimitrie Pompeiu", "George Constantinescu", "Vatra Luminoasă", "Maior Coravu", "Iancului", "Ferdinand I", "Carol I", "Pache Protopopescu", "Mihai Bravu", "Stefan cel Mare", "Tunari", "Dacia", "Eminescu", "Toamnei", "Viitorului", "Vasile Lascar",
+  // Sector 3
+  "Unirii", "Decebal", "Burebista", "Camil Ressu", "Theodor Pallady", "Nicolae Grigorescu", "Rebreanu", "Postăvarului", "1 Decembrie 1918", "Lucrețiu Pătrășcanu", "Codrii Neamțului", "Prevederii", "Traian", "Nerva Traian", "Octavian Goga", "Mircea Vodă", "Calea Calarasilor", "Matei Basarab", "Labirint", "Popa Nan", "Dristorului", "Baba Novac", "Campia Libertatii", "Constantin Brancusi", "Fizicienilor", "Energeticienilor", "Vitan-Barzesti", "Soseaua Garii Catelu",
+  // Sector 4
+  "Olteniței", "Giurgiului", "Berceni", "Tineretului", "Viilor", "Vacaresti", "Alexandru Obregia", "Turnu Magurele", "Emil Racovita", "Nitu Vasile", "Constantin Brancoveanu", "Huedin", "Uioara", "Resita", "Luica", "Irigatiilor", "Metalurgiei", "Drumul Binelui", "Drumul Jilavei", "Serban Voda", "Cutitul de Argint", "Candiano Popescu", "Gheorghe Sincai", "Abatorului", "Vitan",
+  // Sector 5
+  "Rahovei", "Ferentari", "13 Septembrie", "Panduri", "Antiaeriană", "Mărgeanului", "Alexandriei", "Drumul Sării", "Sebastian", "Vigonia", "Petre Ispirescu", "Novaci", "Buzoieni", "Margeanului", "Pucheni", "Teius", "Salaj", "Humulesti", "Zetarilor", "Toporasi", "Pieptanari", "Cosbuc", "Libertatii", "Natiunile Unite", "Elisabeta", "Regina Maria", "Schitu Magureanu",
+  // Sector 6
+  "Iuliu Maniu", "Drumul Taberei", "Timisoara", "Ghencea", "Uverturii", "Virtutii", "Lujerului", "Brasov", "Moinesti", "Valea Oltului", "Valea Argesului", "Valea Ialomitei", "Apusului", "Grozavesti", "Plevnei", "Splaiul Independentei", "Vasile Milea", "Orhideelor", "Giulesti", "Calea Crangasi", "Constructorilor", "Mehadia", "George Valsan", "Aleea Compozitorilor", "Sibiu", "Targu Neamt", "Chilia Veche",
+  // Alte Arterele Majore & Update 2025
+  "Victoriei", "Magheru", "Lascar Catargiu", "Gheorghe Magheru", "Nicolae Balcescu", "Ion C. Bratianu", "Corneliu Coposu", "Splaiul Unirii", "Calea Mosilor", "Calea Grivitei", "Calea Rahovei", "Calea Victoriei", "Calea Floreasca", "Calea Dorobanti", "Soseaua Chitilei", "Soseaua Bucuresti-Ploiesti", "Soseaua Pipera", "Soseaua Vergului", "Soseaua Morarilor", "Soseaua Salaj", "Soseaua Antiaeriana", "Soseaua Odaii", "Soseaua Straulesti", "Drumul Garii", "Drumul Intre Tarlale", "Drumul Belis", "Drumul Agatului", "Drumul Lapus", "Drumul Piscului", "Drumul Osiei", "Drumul Roții"
 ].sort((a, b) => a.localeCompare(b, 'ro'));
 
 const LocationForm: React.FC<LocationFormProps> = ({ totals, initialData, onBack, onNext }) => {
@@ -82,8 +83,9 @@ const LocationForm: React.FC<LocationFormProps> = ({ totals, initialData, onBack
   const filteredStreets = useMemo(() => {
     const query = form.streetName.trim().toLowerCase();
     if (query.length === 0) return [];
+    // Căutare mai permisivă: găsește dacă începe cu sau dacă conține cuvântul
     return BUCHAREST_STREETS_DATABASE.filter(s => 
-      s.toLowerCase().startsWith(query)
+      s.toLowerCase().includes(query)
     ).slice(0, 15);
   }, [form.streetName]);
 
@@ -93,7 +95,6 @@ const LocationForm: React.FC<LocationFormProps> = ({ totals, initialData, onBack
     if (!form.phone || form.phone.length < 10) newErrors.phone = 'TELEFON OBLIGATORIU (MIN. 10 CIFRE)';
     if (!form.email || !/^\S+@\S+\.\S+$/.test(form.email)) newErrors.email = 'EMAIL VALID OBLIGATORIU';
     if (!form.city) newErrors.city = 'LOCALITATE OBLIGATORIE';
-    if (!form.sector) newErrors.sector = 'SECTOR OBLIGATORIU';
     if (!form.streetName) newErrors.streetName = 'NUME STRADĂ OBLIGATORIU';
     if (!form.number) newErrors.number = 'NUMĂR OBLIGATORIU';
     
@@ -104,7 +105,8 @@ const LocationForm: React.FC<LocationFormProps> = ({ totals, initialData, onBack
   const handleNextClick = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      const fullAddress = `${form.city}, Sector ${form.sector}, ${form.streetType} ${form.streetName}, Nr. ${form.number}${form.building ? ', Bl. ' + form.building : ''}${form.scara ? ', Sc. ' + form.scara : ''}${form.floor ? ', Et. ' + form.floor : ''}${form.apartment ? ', Ap. ' + form.apartment : ''}${form.intercom ? ', Int. ' + form.intercom : ''}`;
+      const sectorPart = form.sector ? `, Sector ${form.sector}` : '';
+      const fullAddress = `${form.city}${sectorPart}, ${form.streetType} ${form.streetName}, Nr. ${form.number}${form.building ? ', Bl. ' + form.building : ''}${form.scara ? ', Sc. ' + form.scara : ''}${form.floor ? ', Et. ' + form.floor : ''}${form.apartment ? ', Ap. ' + form.apartment : ''}${form.intercom ? ', Int. ' + form.intercom : ''}`;
       
       onNext({
         fullName: form.fullName,
@@ -251,8 +253,8 @@ const LocationForm: React.FC<LocationFormProps> = ({ totals, initialData, onBack
                  <input 
                    type="text"
                    name="address-line1"
-                   autoComplete="address-line1"
-                   placeholder="Ex. Victoriei"
+                   autoComplete="off"
+                   placeholder="Ex. Victoriei sau Magheru"
                    className={`w-full bg-white dark:bg-slate-900 border-2 rounded-2xl px-4 py-2.5 text-sm font-bold outline-none transition-all ${errors.streetName ? 'border-doby-red' : 'border-slate-100 dark:border-slate-800 focus:border-doby-blue'}`}
                    value={form.streetName}
                    onChange={e => {
@@ -263,13 +265,13 @@ const LocationForm: React.FC<LocationFormProps> = ({ totals, initialData, onBack
                  />
                  
                  {showSuggestions && filteredStreets.length > 0 && (
-                   <div ref={suggestionRef} className="absolute left-0 top-[60px] w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl shadow-xl z-50 overflow-hidden py-1">
-                     <p className="px-4 py-2 text-[8px] font-black text-slate-300 uppercase tracking-widest border-b border-slate-50 dark:border-slate-800/50">Sugestii Străzi</p>
+                   <div ref={suggestionRef} className="absolute left-0 top-[60px] w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-[250px] overflow-y-auto no-scrollbar py-1">
+                     <p className="px-4 py-2 text-[8px] font-black text-slate-300 uppercase tracking-widest border-b border-slate-50 dark:border-slate-800/50 sticky top-0 bg-white dark:bg-slate-900">Sugestii Străzi (București)</p>
                      {filteredStreets.map((s, idx) => (
                        <button
                          key={idx}
                          type="button"
-                         className="w-full text-left px-4 py-2.5 text-xs font-black text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors border-b last:border-0 border-slate-50 dark:border-slate-800/50 uppercase italic flex items-center gap-2"
+                         className="w-full text-left px-4 py-3 text-xs font-black text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors border-b last:border-0 border-slate-50 dark:border-slate-800/50 uppercase italic flex items-center gap-2"
                          onClick={() => {
                            setForm({...form, streetName: s});
                            setShowSuggestions(false);
@@ -292,7 +294,7 @@ const LocationForm: React.FC<LocationFormProps> = ({ totals, initialData, onBack
                     <input 
                       type="text"
                       name="address-line2"
-                      autoComplete="address-line2"
+                      autoComplete="off"
                       placeholder="Ex. 25"
                       className={`w-full bg-white dark:bg-slate-900 border-2 rounded-2xl px-3 py-2.5 text-sm font-bold outline-none transition-all ${errors.number ? 'border-doby-red' : 'border-slate-100 dark:border-slate-800 focus:border-doby-blue'}`}
                       value={form.number}
@@ -336,8 +338,8 @@ const LocationForm: React.FC<LocationFormProps> = ({ totals, initialData, onBack
                  <div className="space-y-1">
                     <label className="text-[9px] font-black text-slate-400 uppercase px-1">Etaj</label>
                     <input 
-                      type="number"
-                      placeholder="Ex. 1"
+                      type="text"
+                      placeholder="0"
                       className="w-full bg-white dark:bg-slate-900 border-2 rounded-2xl px-3 py-2.5 text-sm font-bold outline-none border-slate-100 dark:border-slate-800 focus:border-doby-blue"
                       value={form.floor}
                       onChange={e => setForm({...form, floor: e.target.value})}
