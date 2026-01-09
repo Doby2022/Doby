@@ -7,15 +7,16 @@ import SchedulingForm from './components/SchedulingForm';
 import ObservationsForm from './components/ObservationsForm';
 import SuccessScreen from './components/SuccessScreen';
 import { PRICE_PER_SQM, FREE_SHIPPING_THRESHOLD } from './constants';
+import { sendOrderEmails } from './services/emailService';
 
 const App: React.FC = () => {
   const [screen, setScreen] = useState<AppScreen>('calculator');
+  const [isSending, setIsSending] = useState(false);
   const [carpets, setCarpets] = useState<Carpet[]>([
     { id: '1', length: '250', width: '200' },
     { id: '2', length: '', width: '' }
   ]);
   
-  // Persist order data across screens
   const [orderInfo, setOrderInfo] = useState<Partial<SchedulingData>>({
     fullName: '',
     phone: '',
@@ -75,14 +76,34 @@ const App: React.FC = () => {
     setScreen('observations');
   };
 
-  const handleFinish = (observations: string) => {
+  const handleFinish = async (observations: string) => {
     const finalData: SchedulingData = {
       ...orderInfo as Required<Omit<SchedulingData, 'observations'>>,
       observations
     };
-    console.log('Order finished:', { carpets, totals, finalData });
-    setScreen('success');
+    
+    setIsSending(true);
+    
+    const result = await sendOrderEmails(carpets, totals, finalData);
+    
+    setIsSending(false);
+    if (result.success) {
+      setScreen('success');
+    } else {
+      alert("Comanda a fost înregistrată, dar a apărut o eroare la trimiterea email-ului de confirmare. Vă vom contacta telefonic!");
+      setScreen('success');
+    }
   };
+
+  if (isSending) {
+    return (
+      <div className="flex h-screen w-full flex-col items-center justify-center max-w-[430px] mx-auto bg-white dark:bg-slate-950 p-8 text-center">
+        <div className="size-16 border-4 border-slate-100 border-t-doby-blue rounded-full animate-spin mb-6"></div>
+        <h2 className="text-xl font-black text-doby-blue uppercase italic tracking-tighter">Procesăm <span className="text-doby-red">Comanda...</span></h2>
+        <p className="text-slate-400 text-xs font-bold mt-4 animate-pulse uppercase tracking-widest">Trimitem datele către Doby</p>
+      </div>
+    );
+  }
 
   if (screen === 'success') {
     return <SuccessScreen onRestart={() => {
