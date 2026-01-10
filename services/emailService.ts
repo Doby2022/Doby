@@ -21,24 +21,32 @@ export const sendOrderEmails = async (carpets: Carpet[], totals: Totals, orderDa
   };
 
   try {
-    // Apelăm scriptul PHP de pe serverul tău
     const response = await fetch('https://doby.ro/send-order.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(orderDetails),
     });
 
+    const contentType = response.headers.get("content-type");
     if (!response.ok) {
-      throw new Error('Eroare la server');
+      const text = await response.text();
+      return { success: false, error: `Server Error ${response.status}: ${text.substring(0, 100)}` };
     }
 
-    const result = await response.json();
-    return { success: result.success };
-  } catch (error) {
-    console.error('Eroare la trimiterea emailului:', error);
-    // Chiar dacă dă eroare de rețea, în mod normal scriptul PHP a primit datele dacă request-ul a plecat
-    return { success: false, error };
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+      const result = await response.json();
+      if (!result.success) {
+        return { success: false, error: result.message || 'Eroare trimitere email de pe server.' };
+      }
+      return { success: true };
+    } else {
+      const text = await response.text();
+      return { success: false, error: `Răspuns invalid de la server (nu e JSON): ${text.substring(0, 100)}` };
+    }
+  } catch (error: any) {
+    return { success: false, error: `Eroare conexiune: ${error.message}` };
   }
 };

@@ -90,7 +90,7 @@ const App: React.FC = () => {
     if (result.success) {
       setScreen('success');
     } else {
-      alert("Comanda a fost înregistrată, dar a apărut o eroare la trimiterea email-ului de confirmare. Vă vom contacta telefonic!");
+      alert(`Eroare la trimitere: ${result.error || 'Necunoscută'}. Totuși, puteți finaliza procesul.`);
       setScreen('success');
     }
   };
