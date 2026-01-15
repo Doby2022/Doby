@@ -21,11 +21,15 @@ export const sendOrderEmails = async (carpets: Carpet[], totals: Totals, orderDa
   };
 
   try {
-    // Folosim URLSearchParams pentru a trimite datele ca un formular standard (x-www-form-urlencoded)
     const formData = new URLSearchParams();
     formData.append('order_data', JSON.stringify(orderDetails));
 
-    const response = await fetch('https://doby.ro/send-order.php', {
+    // Căutăm send-order.php în același folder cu aplicația
+    // Dacă pui index.html și send-order.php în folderul /calculator/, 
+    // browserul le va găsi împreună.
+    const apiUrl = './send-order.php';
+
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -34,16 +38,16 @@ export const sendOrderEmails = async (carpets: Carpet[], totals: Totals, orderDa
     });
 
     if (!response.ok) {
-      throw new Error(`Status: ${response.status}`);
+      throw new Error(`Serverul a răspuns cu eroarea: ${response.status}`);
     }
 
     const result = await response.json();
     return { success: !!result.success, error: result.message };
   } catch (error: any) {
-    console.error('Fetch error:', error);
+    console.error('Eroare la trimitere:', error);
     return { 
       success: false, 
-      error: "Blocaj de securitate la nivel de server. Asigurați-vă că fișierul PHP este actualizat pe doby.ro." 
+      error: "Nu am putut conecta cu serverul Doby. Verificați dacă fișierul send-order.php există în folder." 
     };
   }
 };
